@@ -29,9 +29,9 @@ function App() {
     return textArea.value;
   }
 
-// added for testing if categories
+// added to fetch and set Categories
 useEffect(() => {
-  // Fetch categories when the component mounts
+  
   axios
     .get("https://opentdb.com/api_category.php")
     .then((response) => {
@@ -42,7 +42,7 @@ useEffect(() => {
     });
 }, []);
 
-///
+
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault(); // Prevent the default form submission behavior
