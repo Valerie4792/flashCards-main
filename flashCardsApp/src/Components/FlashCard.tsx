@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, chakra } from "@chakra-ui/react"; // Import chakra instead of background and color
 
 export interface FlashCardProps {
   flashCard: {
@@ -10,7 +10,7 @@ export interface FlashCardProps {
   };
 }
 
-const FlashCard= ({ flashCard }: FlashCardProps) => {
+const FlashCard = ({ flashCard }: FlashCardProps) => {
   const [flip, setFlip] = useState(false);
   const [height, setHeight] = useState<number | string>("initial");
 
@@ -35,38 +35,48 @@ const FlashCard= ({ flashCard }: FlashCardProps) => {
     return () => window.removeEventListener("resize", setMaxHeight);
   }, []);
 
+  //array for letter options on trivia
+  const alphaOption = ['a', 'b', 'c', 'd', 'e'];
+
   return (
-    //this box returns the boxes for each question displayed
     <Box
-      // className={`card ${flip ? "flip" : ""}`}
       height={height}
       onClick={() => setFlip(!flip)}
-      overflow={"hidden"}
-      bg={"purple.300"}
+      overflow="hidden"
+      bg="purple.300"
       borderRadius=".25rem"
       boxShadow="0 0 5px 2px rgba(0, 0, 0, 0.3)"
-      cursor="pointer" padding={5} margin={5}
-      
-      // transform={`perspective(1000px) rotateY(${flip ? 180 : 0}deg)`}
-      // transition="transform 150ms, box-shadow 150ms"
-      
+      cursor="pointer"
+      padding={5}
+      margin={5}
     >
-      {!flip?  <div className="front" ref={frontEl}>
-        {flashCard.question}
-        <div className="flashcard-options">
-          {flashCard.options.map((option) => {
-            return (
-              <div className="flashcard-option" key={option}>
-                {option}
-              </div>
-            );
-          })}
-        </div>
-      </div> : <div className="back" ref={backEl}>
-        {flashCard.answer}
-      </div>}
-     
-      
+      {!flip ? (
+        <Box className="front" ref={frontEl}>
+
+          <Box fontWeight={"bold"} fontSize={20} fontFamily='verdana'>{flashCard.question}</Box>
+
+          <div className="flashcard-options">
+            {flashCard.options.map((option, index) => {
+              const optionLetter = alphaOption[index];
+              return (
+                <chakra.div
+                  className="flashcard-option"
+                  key={option}
+                  _hover={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                >
+                  {`${optionLetter}. ${option}`}
+                </chakra.div>
+              );
+            })}
+          </div>
+        </Box>
+      ) : (
+        <Box className="back" ref={backEl} bgColor={"purple.500"} fontWeight={"bold"} fontSize={20} fontFamily='verdana'>
+          {`${alphaOption[flashCard.options.indexOf(flashCard.answer)]}. ${
+            flashCard.answer
+          }`}
+        </Box>
+      )}
     </Box>
   );
 };

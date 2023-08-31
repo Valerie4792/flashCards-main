@@ -6,6 +6,7 @@ import {
   Button,
   Flex,
   ChakraProvider,
+  Text,
 } from "@chakra-ui/react";
 import FlashCardList from "./Components/FlashCardList";
 import axios from "axios";
@@ -13,7 +14,6 @@ import axios from "axios";
 interface Category {
   id: number;
   name: string;
-  
 }
 
 function App() {
@@ -29,24 +29,21 @@ function App() {
     return textArea.value;
   }
 
-// added to fetch and set Categories
-useEffect(() => {
-  
-  axios
-    .get("https://opentdb.com/api_category.php")
-    .then((response) => {
-      setCategories(response.data.trivia_categories);
-    })
-    .catch((error) => {
-      console.error("Error fetching categories:", error);
-    });
-}, []);
-
-
+  // added to fetch and set Categories
+  useEffect(() => {
+    axios
+      .get("https://opentdb.com/api_category.php")
+      .then((response) => {
+        setCategories(response.data.trivia_categories);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault(); // Prevent the default form submission behavior
-    
+
     axios
       .get("https://opentdb.com/api.php", {
         params: {
@@ -56,37 +53,44 @@ useEffect(() => {
       })
       .then((res) => {
         setFlashCards(
-          res.data.results.map((questionItem: { correct_answer: string; incorrect_answers: any[]; question: string; }, index: number) => {
-            const answer = decodeString(questionItem.correct_answer);
-            const options = [
-              ...questionItem.incorrect_answers.map((a) => decodeString(a)),
-              answer,
-            ];
-  
-            return {
-              id: index,
-              question: questionItem.question,
-              answer: decodeString(questionItem.correct_answer),
-              options: options.sort(() => Math.random() - 0.5),
-            };
-          })
+          res.data.results.map(
+            (
+              questionItem: {
+                correct_answer: string;
+                incorrect_answers: any[];
+                question: string;
+              },
+              index: number
+            ) => {
+              const answer = decodeString(questionItem.correct_answer);
+              const options = [
+                ...questionItem.incorrect_answers.map((a) => decodeString(a)),
+                answer,
+              ];
+
+              return {
+                id: index,
+                question: questionItem.question,
+                answer: decodeString(questionItem.correct_answer),
+                options: options.sort(() => Math.random() - 0.5),
+              };
+            }
+          )
         );
       })
       .catch((error) => {
         console.error("An error occurred:", error);
       });
 
-      console.log(categories)
+    console.log(categories);
   }
-  
-
 
   return (
     <ChakraProvider>
       <Flex
         direction="column"
         alignItems="center"
-        bg="purple.400"
+        bg=""
         p="1rem"
         boxShadow="0 0 5px 2px rgba(0, 0, 0, 0.3)"
       >
@@ -122,12 +126,25 @@ useEffect(() => {
             </Box>
 
             <Box>
-              <Button colorScheme={'cyan'} type="submit">
+              <Button colorScheme={"cyan"} type="submit">
                 Generate
               </Button>
             </Box>
           </Flex>
         </form>
+        <Box>
+          <Text
+            bgGradient="linear(to-l, #bedd0b, #dd21dd)"
+            bgClip="text"
+            fontSize="6xl"
+            fontWeight="extrabold"
+          >
+            Welcome to Trivia!
+          </Text>
+          <Text>
+            {}
+          </Text>
+        </Box>
 
         <Box className="container">
           <FlashCardList flashCards={flashCards} />
