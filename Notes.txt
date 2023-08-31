@@ -15,9 +15,6 @@ Back of card to display answer, can add animation using Chakra
 
 Trivia API:
 
-Will need Id for the categories to display:
-categories: Science and Nature id: 7813, History id:7814, General Knowledge 6678, Geography id: 6352; Entertainment: Music id 6343
-
 will need to use import select from chakra to import dropdown options'
 
 Questions's per category will need to use Number Input from Chakra

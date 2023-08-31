@@ -12,12 +12,14 @@ interface FlashCardListProps {
 }
 
 const FlashCardList = ({ flashCards }: FlashCardListProps) => {
-  return (
-    <Box className="card-grid" display="grid" gap="1rem">
+  return ( 
+    <Box className="card-grid text-center" display="grid" gap="1rem" boxShadow='dark-lg' margin={10}>
       {flashCards.map((flashCard) => {
         return <FlashCard flashCard={flashCard} key={flashCard.id} />;
       })}
     </Box>
+   
+    
   );
 };
 

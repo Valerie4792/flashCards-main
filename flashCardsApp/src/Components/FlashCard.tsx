@@ -21,7 +21,7 @@ const FlashCard= ({ flashCard }: FlashCardProps) => {
     const frontHeight =
       frontEl.current?.getBoundingClientRect().height || 0;
     const backHeight = backEl.current?.getBoundingClientRect().height || 0;
-    setHeight(Math.max(frontHeight, backHeight, 100));
+    setHeight(Math.max(frontHeight, backHeight, 160));
   }
 
   useEffect(setMaxHeight, [
@@ -36,24 +36,22 @@ const FlashCard= ({ flashCard }: FlashCardProps) => {
   }, []);
 
   return (
+    //this box returns the boxes for each question displayed
     <Box
-      className={`card ${flip ? "flip" : ""}`}
+      // className={`card ${flip ? "flip" : ""}`}
       height={height}
       onClick={() => setFlip(!flip)}
+      overflow={"hidden"}
       bg={"purple.300"}
       borderRadius=".25rem"
       boxShadow="0 0 5px 2px rgba(0, 0, 0, 0.3)"
-      cursor="pointer"
-      transform={`perspective(1000px) rotateY(${flip ? 180 : 0}deg)`}
-      transition="transform 150ms, box-shadow 150ms"
-      _hover={{
-        transform: `perspective(1000px) rotateY(${
-          flip ? 180 : 0
-        }deg) translateY(-2px)`,
-        boxShadow: "Dark-lg",
-      }}
+      cursor="pointer" padding={5} margin={5}
+      
+      // transform={`perspective(1000px) rotateY(${flip ? 180 : 0}deg)`}
+      // transition="transform 150ms, box-shadow 150ms"
+      
     >
-      <div className="front" ref={frontEl}>
+      {!flip?  <div className="front" ref={frontEl}>
         {flashCard.question}
         <div className="flashcard-options">
           {flashCard.options.map((option) => {
@@ -64,10 +62,11 @@ const FlashCard= ({ flashCard }: FlashCardProps) => {
             );
           })}
         </div>
-      </div>
-      <div className="back" ref={backEl}>
+      </div> : <div className="back" ref={backEl}>
         {flashCard.answer}
-      </div>
+      </div>}
+     
+      
     </Box>
   );
 };
