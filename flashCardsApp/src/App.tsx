@@ -62,6 +62,7 @@ function App() {
               },
               index: number
             ) => {
+              const question = decodeString(questionItem.question);
               const answer = decodeString(questionItem.correct_answer);
               const options = [
                 ...questionItem.incorrect_answers.map((a) => decodeString(a)),
@@ -70,8 +71,8 @@ function App() {
 
               return {
                 id: index,
-                question: questionItem.question,
-                answer: decodeString(questionItem.correct_answer),
+                question: question,
+                answer: answer,
                 options: options.sort(() => Math.random() - 0.5),
               };
             }

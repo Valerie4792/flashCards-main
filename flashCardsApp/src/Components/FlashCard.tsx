@@ -28,6 +28,7 @@ const FlashCard = ({ flashCard }: FlashCardProps) => {
     flashCard.question,
     flashCard.answer,
     flashCard.options,
+    flip,
   ]);
 
   useEffect(() => {
@@ -42,11 +43,12 @@ const FlashCard = ({ flashCard }: FlashCardProps) => {
     <Box
       height={height}
       onClick={() => setFlip(!flip)}
-      overflow="hidden"
+     
       bg="purple.300"
       borderRadius=".25rem"
       boxShadow="0 0 5px 2px rgba(0, 0, 0, 0.3)"
       cursor="pointer"
+      overflow={"auto"}
       padding={5}
       margin={5}
     >
@@ -71,7 +73,7 @@ const FlashCard = ({ flashCard }: FlashCardProps) => {
           </div>
         </Box>
       ) : (
-        <Box className="back" ref={backEl} bgColor={"purple.500"} fontWeight={"bold"} fontSize={20} fontFamily='verdana'>
+        <Box textAlign='center' className="back" ref={backEl} bgColor={"purple.500"} fontWeight={"bold"} fontSize={20} fontFamily='verdana'>
           {`${alphaOption[flashCard.options.indexOf(flashCard.answer)]}. ${
             flashCard.answer
           }`}
